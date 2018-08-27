@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +79,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DATABASE_NAME'),
         'USER': os.environ.get('DATABASE_USER'),
-        'PASSWORD'= os.environ.get('DATABASE_PASSWORD'),
-        'HOST': = os.environ.get('DATABASE_HOST'),
-        'PORT': = os.environ.get('DATABASE_PORT'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 
@@ -132,17 +133,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ################################################
 
 if os.environ.get('ENVIRONMENT') == 'PRODUCTION':
-    from SmartToDo.production_settings import *
+    from attendance.production_settings import *
 
 elif os.environ.get('ENVIRONMENT') == 'DEVELOPMENT':
-    from SmartToDo.development_settings import *
+    from attendance.development_settings import *
 
 elif os.environ.get('ENVIRONMENT') == 'TESTING':
-    from SmartToDo.testserver_settings import *
+    from attendance.testserver_settings import *
 
 if os.environ.get('CI'):
-    from SmartToDo.ci_settings import *
+    from attendance.ci_settings import *
 try:
-    from SmartToDo.local_settings import *
+    from attendance.local_settings import *
 except ImportError:
     pass
