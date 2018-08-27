@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Users(models.Model):
+class Student(models.Model):
     '''
     Contains basic user fields.
     '''
@@ -28,7 +28,7 @@ class Users(models.Model):
         #To be defined
         pass
 
-    def user_status(self):
+    def active_status(self):
         if is_active:
             return 'ACTIVE'
         else:
@@ -38,11 +38,15 @@ class AttendanceTracker(models.Model):
     '''
     Contains attendance tracker fields.
     '''
-    roll_number = models.ForeignKey(Users, related_name='roll',
+    roll_number = models.ForeignKey(Student, related_name='roll',
                                     on_delete=models.CASCADE)
     working_days = models.IntegerField(default=0)
     present_classes = models.IntegerField(default=0)
     percentage = models.FloatField(default=0.0)
 
     def get_attendance(self):
-        return
+        pass
+
+    def get_absolute_url(self):
+        #To be defined
+        pass
