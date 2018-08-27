@@ -8,6 +8,7 @@ from django.views import generic
 
 class IndexView(generic.ListView):
     template_name = 'core/index.html'
+    context_object_name = 'student_list'
 
     def get_queryset(self):
-        return Student.objects.all()[:10]
+        return Student.objects.all()
