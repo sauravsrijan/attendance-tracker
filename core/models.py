@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 class Student(models.Model):
@@ -19,20 +20,33 @@ class Student(models.Model):
     phone = models.CharField(max_length=10) #to be rechecked.
     email = models.EmailField()
     course_opted = models.CharField(max_length=15, choices=COURSE_LIST)
-    # percentage = models.ForeignKey(AttendanceTracker, related_name='users',
-    #                                on_delete=models.CASCADE)
     valid_till = models.DateTimeField()
     is_active = models.BooleanField(default=False)
+    # percentage =
+
+    class Meta:
+        ordering = ('full_name',)
+
+    def __str__(self):
+        return '{}'.format(self.roll_number)
 
     def get_absolute_url(self):
         #To be defined
         pass
+
+    def set_validity(self):
+        if valid_till <= datetime.now():
+            is_active = True
+        else:
+            is_active = False
 
     def active_status(self):
         if is_active:
             return 'ACTIVE'
         else:
             return 'INACTIVE'
+
+
 
 class AttendanceTracker(models.Model):
     '''
@@ -44,8 +58,15 @@ class AttendanceTracker(models.Model):
     present_classes = models.IntegerField(default=0)
     percentage = models.FloatField(default=0.0)
 
+    def __str__(self):
+        return '{}'.format(self.roll_number)
+
     def get_attendance(self):
-        pass
+        if self.working_days == 0:
+            return "No classes conducted yet."
+        else:
+            percent = (self.present_classes/self.working_days)*100
+            return percent
 
     def get_absolute_url(self):
         #To be defined
