@@ -22,7 +22,6 @@ class Student(models.Model):
     course_opted = models.CharField(max_length=15, choices=COURSE_LIST)
     valid_till = models.DateTimeField()
     is_active = models.BooleanField(default=False)
-    # percentage =
 
     class Meta:
         ordering = ('full_name',)

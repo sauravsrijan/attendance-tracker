@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Konnexions{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    {% if student_list %}
+    <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">Roll Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Course Opted</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in student_list %}
+    <tr>
+      <td>{{student.roll_number}}</td>
+      <td>{{student.full_name}}</td>
+      <td>{{student.course_opted}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    {% else %}
+        <p>No students available.</p>
+    {% endif %}
+</body>
+</html>
