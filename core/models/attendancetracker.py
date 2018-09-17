@@ -28,6 +28,3 @@ class AttendanceTracker(models.Model):
         self.percentage = self.get_percentage
         super(AttendanceTracker, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        #To be defined
-        pass

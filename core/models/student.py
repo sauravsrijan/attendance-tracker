@@ -1,5 +1,7 @@
-from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.db import models
+
 
 
 class Student(models.Model):
@@ -15,6 +17,8 @@ class Student(models.Model):
 
     joined = models.DateTimeField(auto_now_add=True)
     full_name = models.CharField(max_length=100)
+    # user = models.ForeignKey(User, related_name='student',
+    #                          on_delete=models.CASCADE)
     branch = models.CharField(max_length=30)
     roll_number = models.CharField(max_length=10)
     phone = models.CharField(max_length=10) #to be rechecked.

@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{% block content %}
+<div class="page-center container">
+    <h1>Sign Up</h1>
+    <form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+        {{ field.errors }}
+        <input type="{% if 'password' in field.name %}password{% else %}input{% endif %}" placeholder="{{ field.label }}" name="{{ field.name }}" class="form-control" />
+    {% endfor %}
+    <br />
+    <button type="submit" class="btn btn-primary">Login</button>
+    <br />
+</form>
+</div>
+{% endblock %}
