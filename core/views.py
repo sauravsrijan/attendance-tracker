@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from core.models.student import Student
 from core.models.attendancetracker import AttendanceTracker
-from django.contrib.auth.forms import UserCreationForm
+from core.templates.registration.mentorform import MentorForm
 from django.contrib.auth import authenticate, login
 from django.views import generic
 
@@ -11,7 +11,7 @@ def IndexView(request):
 
 def SignUp(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MentorForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data['username']
@@ -20,7 +20,7 @@ def SignUp(request):
             # login(request, user)
             return redirect('/')
     else:
-        form = UserCreationForm()
+        form = MentorForm()
 
     return render(request, 'registration/signup.html', {'form': form})
 

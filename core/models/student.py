@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import timedelta
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -14,18 +15,24 @@ class Student(models.Model):
         ('ML', 'Machine Learning'),
         ('DROID', 'Android'),
         )
+    SEX_TYPES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Others'),
+        )
 
-    joined = models.DateTimeField(auto_now_add=True)
+    # user = models.OneToOneField(
+    #     User, related_name='student', default=None, on_delete=models.CASCADE) # To be added in later update.
+    # is_admin = models.BooleanField(default=False)  # To be added in later update
     full_name = models.CharField(max_length=100)
-    # user = models.ForeignKey(User, related_name='student',
-    #                          on_delete=models.CASCADE)
     branch = models.CharField(max_length=30)
-    roll_number = models.CharField(max_length=10)
-    phone = models.CharField(max_length=10) #to be rechecked.
-    email = models.EmailField()
+    roll_number = models.CharField(max_length=10, unique=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    sex = models.CharField(
+        max_length=1, choices=SEX_TYPES, blank=True, null=True)
     course_opted = models.CharField(max_length=15, choices=COURSE_LIST)
-    valid_till = models.DateTimeField()
-    is_active = models.BooleanField(default=False)
+    active_from = models.DateTimeField(auto_now_add=True)
+    expiry = models.IntegerField(default=365)  # One Year Validity
 
     class Meta:
         ordering = ('full_name',)
@@ -33,18 +40,19 @@ class Student(models.Model):
     def __str__(self):
         return '{}'.format(self.roll_number)
 
-    def get_absolute_url(self):
-        #To be defined
-        pass
+    # def get_absolute_url(self):
+    #     #To be defined
+    #     pass
 
-    def set_validity(self):
-        if valid_till <= datetime.now():
-            is_active = True
-        else:
-            is_active = False
+    @property
+    def email(self):
+        return self.roll_number+'@kiit.ac.in'
 
-    def active_status(self):
-        if is_active:
-            return 'ACTIVE'
+
+    @property
+    def is_active(self):
+        active_till = self.active_from+timedelta(self.expiry)
+        if active_till >= timezone.now():
+            return True
         else:
-            return 'INACTIVE'
+            return False
