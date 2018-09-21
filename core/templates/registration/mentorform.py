@@ -25,8 +25,8 @@ class MentorForm(UserCreationForm):
     def Save(self, commit=True):
         if not commit:
             raise NotImplementedError(
-                "Can't create User and UserProfile without database save")
-        user = super(UserCreateForm, self).save(commit=True)
+                "Can't create User and Mentor without database save")
+        user = super(MentorForm, self).save(commit=True)
         mentor = Mentor(user=user, full_name=self.cleaned_data['name'],
             roll_number=self.cleaned_data['roll'], domain=self.cleaned_data['domain'],
             phone=self.cleaned_data['phone'], sex=self.cleaned_data['sex'])
