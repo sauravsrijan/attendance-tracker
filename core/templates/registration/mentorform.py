@@ -31,4 +31,4 @@ class MentorForm(UserCreationForm):
             roll_number=self.cleaned_data['roll'], domain=self.cleaned_data['domain'],
             phone=self.cleaned_data['phone'], sex=self.cleaned_data['sex'])
         mentor.save()
-        return user, mentor
+        return user
