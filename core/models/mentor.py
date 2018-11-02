@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.contrib.auth.models import User, Permission
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 
@@ -38,3 +40,11 @@ class Mentor(models.Model):
     def email(self):
         return self.roll_number+'@kiit.ac.in'
 
+    @receiver(post_save, sender=User)
+    def create_mentor(sender, instance, created, **kwargs):
+        if created:
+            Mentor.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_mentor(sender, instance, **kwargs):
+        instance.mentor.save()

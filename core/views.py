@@ -1,28 +1,35 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from core.models.student import Student
 from core.models.attendancetracker import AttendanceTracker
-from core.templates.registration.mentorform import MentorForm
+from core.templates.registration.mentorform import UserForm, MentorProfileForm
 from django.contrib.auth import authenticate, login
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 
 def IndexView(request):
     return render(request, 'core/index.html')
 
+
 def SignUp(request):
     if request.method == 'POST':
-        form = MentorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            # login(request, user)
-            return redirect('/')
+        user_form = UserForm(request.POST, instance=request.user)
+        mentor_profile_form = MentorProfileForm(request.POST, instance=request.user.mentor)
+        if user_form.is_valid() and mentor_profile_form.is_valid():
+            user_form.save()
+            mentor_profile_form.save()
+            messages.success(request, "User successfully created")
+        else:
+            messages.error(request, "Correct errors")
     else:
-        form = MentorForm()
+        user_form = UserForm(instance=request.user)
+        mentor_profile_form = MentorProfileForm(instance=request.user.mentor)
+    return render(request, 'create_profile.html', {
+        'user_form': user_form,
+        'mentor_profile_form': mentor_profile_form
+    })
 
-    return render(request, 'registration/signup.html', {'form': form})
 
 class WebDevelopment(generic.ListView):
     template_name = 'core/webindex.html'
